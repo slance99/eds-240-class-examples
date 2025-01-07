@@ -1,0 +1,76 @@
+---
+description: "Week 1 Discussion Materials"
+author: "Sam Lance"
+date: January 7, 2025
+format:
+  html:
+    code-fold: false
+    toc: true
+    number-sections: true
+    embed-resources: true
+    theme: Lux
+editor: visual
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+## Loading Libraries
+
+```{r}
+library(tidyverse) #gotta have it 
+library(janitor) #cleaning data
+library(here) #calling data from files
+library(usdata) #demographic data 
+library(lubridate) #for date conversion later
+```
+
+## Loading Data
+
+```{r}
+fracking_og <- read_csv(here("week_1", "data", "fracking_data.csv")) #load unclean fracking data
+```
+
+## Cleaning Data
+
+```{r}
+fracking_clean <- fracking_og |>
+  clean_names() |> #get column names lowercase
+  mutate(job_start_date = str_remove(job_start_date, " AM"), 
+         datetime_start = mdy_hms(job_start_date), #char to datetime
+         year=as.numeric(format(datetime_start,"%Y")), #parse year
+         str_to_title(state_name, locale = "en"), #title format
+         state_name = str_remove(state_name, "\\?$"), #remove ?
+         state_name = ifelse(
+           nchar(state_name) == 2, #look for if # chars = 2
+           abbr2state(state_name), #if true change to state name
+           state_name #if false keep the same 
+         ),
+         state_name = case_when( #removing spelling errors
+           state_name == "Colordao" ~ "Colorado",
+           state_name == "Loiusiana" ~ "Louisiana",
+           state_name == "Louisianna" ~ "Louisiana",
+           state_name == "Lousiana" ~ "Louisiana",
+           state_name == "New Mexcio" ~ "New Mexico",
+           state_name == "Norh Dakota" ~ "North Dakota",
+           state_name == "Norht Dakota" ~ "North Dakota",
+           state_name == "North  Dakota" ~ "North Dakota",
+           state_name == "North Dakata" ~ "North Dakota",
+           state_name == "North Dakotta" ~ "North Dakota",
+           state_name == "Noth Dakota" ~ "North Dakota",
+           state_name == "Pennslvania" ~ "Pennsylvania",
+           state_name == "Pennsylavania" ~ "Pennsylvania",
+           state_name == "Pennsylvanya" ~ "Pennsylvania",
+           state_name == "Penssylvania" ~ "Pennsylvania",
+           state_name == "Texasa" ~ "Texas",
+           state_name == "Texs" ~ "Texas", 
+           state_name == "West Viginia" ~ "West Virginia",
+           state_name == "Wyominng" ~ "Wyoming", 
+           TRUE ~ state_name ),
+         state_abbr = (state2abbr(state_name)), #add abbrev column
+         total_base_water_volume_gal = total_base_water_volume) |>
+  select("datetime_start", "year", "state_name", "state_abbr","well_name", "total_base_water_volume_gal") |> #selecting columns
+  drop_na(total_base_water_volume_gal) |> #deleting na from water 
+  arrange(ymd_hms(datetime_start)) #arranging by date, need to make sure you do lubridate by how data actually looks (ymd not mdy)
+```
