@@ -1,0 +1,54 @@
+---
+title: "Week 3 Discussion"
+author: "Sam Lance"
+date: "January 21, 2025"
+format:
+  html:
+    code-fold: true
+    toc: true
+    number-sections: true
+    embed-resources: true
+    theme: Lux
+editor: visual
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+**How to Write Alt-Text**:
+
+-   [What is Alt Text:]{.underline} used by assistive devices to read information from a plot
+
+-   [alt]{.underline} = "*Chart type* of *type of data* where *reason for including chart*"
+
+-   [Example]{.underline}: alt = "Colored stripes of chronologically ordered temperatures where they increase in red to show the warming in global temperatures"
+
+## Visual 1: Palmer Penguins Data
+
+```{r}
+#| eval: true
+#| warning: false #stops warnings from occurring 
+#| echo: false #gets rid of the code entirely from the final document 
+#| message: false #gets rid of the message too 
+#| fig-alt: "alt = Histogram of the frequency of body mass occurrance for three different species of penguins (Adelie, Chinstrap, Gentoo). The average bodymass of the Gentoo penguin is significantly larger than the other two species "
+
+library(ggplot2)
+library(palmerpenguins)
+
+ggplot(data = penguins, aes(x = body_mass_g, fill = species)) +
+  geom_histogram(alpha = 0.5, 
+                 position = "identity") +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Body mass (g)",
+       y = "Frequency",
+       title = "Penguin body masses")
+```
+
+## Visual 2: Global Temperature
+
+## ![](nyt-monthly-temp.png){fig-alt="Dot plot of montly global temperatures from 1850, the start of the industrial revolution, to 2023. The overall trend shows prior to 1975 the yearly temperature is hotter than average, compared to prior to 1975 when the temperature is colder than average"} 
+
+## Visual 3: GBIF Species
+
+<img src="chapman-etal-2024.png" alt="Heatmap of the amount of GBIF (Global Biodiversity Information Facility) observations of species worldwide. Wealthier countries such as the United States show lighter colors that indicate more observations than poorer countries such as Egypt" width="700px"/>

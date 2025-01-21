@@ -6,6 +6,8 @@ date: 2025-01-13
 toc: true
 ---
 
+
+
 ::: callout-note
 This template follows [lecture 2.2 slides](https://eds-240-data-viz.github.io/course-materials/lecture-slides/lecture2.2-distributions-slides.html#/title-slide){target="\"_blank"}.
 :::
@@ -14,6 +16,8 @@ This template follows [lecture 2.2 slides](https://eds-240-data-viz.github.io/co
 
 -   Find data & metadata on the [EDI Data Portal](https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-sbc&identifier=2007).
 -   Get data download link by right-clicking on the **Download** button \> **Copy Link Address** \> then paste into `read_csv()`
+
+
 
 ```{r}
 #| eval: true
@@ -81,6 +85,8 @@ bottom <- mko_clean |> select(Temp_bot)
 missing_temps <- naniar::vis_miss(bottom) #from naniar package take the vis_miss function
 ```
 
+
+
 ## Histograms
 
 -   represent distribution of a numeric variable(s), which is cut into several bins -- height of bar represents \# of observations in that bin
@@ -103,6 +109,8 @@ Things To Change:
 
     -   Note: we are seeing it's hard to see what is happening with this because there are too many groups
 
+
+
 ```{r}
 #| eval: true
 #| echo: true
@@ -116,11 +124,15 @@ mko_clean |>
 #things to change from original - need to put months in order 
 ```
 
+
+
 ### Alt 1: small multiples
 
 Purpose: meant to fix the problem of having too many groups
 
 Solution: create a set of plots for each box, removed color to remove a visual distraction
+
+
 
 ```{r}
 #| eval: true
@@ -136,9 +148,13 @@ mko_clean |>
   facet_wrap(~month_name) #split up our facets by month name  
 ```
 
+
+
 ### Alt 2: fewer groups + update colors + modify bin widths
 
 Solution: remove as many groups and only look at representative months
+
+
 
 ```{r}
 #| eval: true
@@ -154,12 +170,16 @@ mko_clean |>
   scale_fill_manual(values = c("green", "blue", "purple"))
 ```
 
+
+
 ## Density plots
 
 -   represent data distribution of a numeric variable(s); uses KDE to show probability density function of the variable, the y-axis represents the estimated density, i.e. the relative likelihood of a value occurring, and the area under each curve is equal to 1
 -   Ideal Usage: shape of distribution of observations
 
 ### Too many groups - same group as histogram
+
+
 
 ```{r}
 #| eval: true
@@ -173,7 +193,11 @@ mko_clean |>
   geom_density(alpha = 0.5)
 ```
 
+
+
 ### Alt 1: small multiples
+
+
 
 ```{r}
 #| eval: true
@@ -188,6 +212,8 @@ mko_clean |>
   facet_wrap(~month_name)
 ```
 
+
+
 ### Alt 2: fewer groups + update colors + modify band widths
 
 Band Width:
@@ -197,6 +223,8 @@ Band Width:
 -   Larger Band Width: smooths the curve out
 
 -   Adjust: command to alter, 1 is the default - smaller means smaller band width
+
+
 
 ```{r}
 #| eval: true
@@ -211,6 +239,8 @@ mko_clean |>
   scale_fill_manual(values = c("#2C5374", "#ADD8E6", "#8B3A3A"))
 ```
 
+
+
 ## A few more histograms & density plots
 
 ### Distinction: histograms vs. density plots
@@ -218,6 +248,8 @@ mko_clean |>
 -   [Histogram]{.underline}: show FREQUENCY of values of values in each range represented by the height of bars
 
 -   [Density]{.underline}: proportion of values in each range, peaks indicate where more values are concentrated but does not tell us anything about the number of observations
+
+
 
 ```{r}
 #| eval: true
@@ -243,7 +275,11 @@ ggplot(dummy_data, aes(x = value, fill = group)) +
   geom_rug(aes(color = group), alpha = 0.75)
 ```
 
+
+
 ### Combining geoms - SKIPPED IN CLASS
+
+
 
 ```{r}
 #| eval: true
@@ -257,7 +293,11 @@ ggplot(mko_clean, aes(x = Temp_bot)) +
   geom_density(size = 1) 
 ```
 
+
+
 ### Compare groups to a whole - SKIPPED IN CLASS
+
+
 
 ```{r}
 #| eval: true
@@ -282,9 +322,13 @@ ggplot(penguins, aes(x = body_mass_g, y = after_stat(count))) +
   theme(legend.position = "top")
 ```
 
+
+
 ## Ridgeline plots
 
 -   show distribution of a numeric variable for multiple groups
+
+
 
 ```{r}
 #| eval: true
@@ -305,7 +349,11 @@ ggplot(mko_clean, aes(x = Temp_bot,
 
 ```
 
+
+
 ### Alt 1: reorder groups + adjust overlap & tails
+
+
 
 ```{r}
 #| eval: true
@@ -321,7 +369,11 @@ ggplot(mko_clean, aes(x = Temp_bot, y = month_name, fill = after_stat(x))) +
   scale_y_discrete(limits = rev(month.name)) #reverse month name function to set the y axis
 ```
 
+
+
 ### Alt 2: add quantiles - SKIPPED IN CLASS
+
+
 
 ```{r}
 #| eval: true
@@ -333,7 +385,11 @@ ggplot(mko_clean, aes(x = Temp_bot, y = month_name, fill = after_stat(x))) +
 ggplot(mko_clean, aes(x = Temp_bot, y = month_name))
 ```
 
+
+
 ### Alt 3: jitter raw data - SKIPPED IN CLASS
+
+
 
 ```{r}
 #| eval: true
@@ -346,6 +402,8 @@ ggplot(mko_clean, aes(x = Temp_bot, y = month_name))
 
 ```
 
+
+
 ## Boxplots
 
 -   Purpose: good for quantiles
@@ -353,6 +411,8 @@ ggplot(mko_clean, aes(x = Temp_bot, y = month_name))
 <!-- -->
 
 -   *summarize* the distribution of a numeric variable for one or several groups
+
+
 
 ```{r}
 #| eval: true
@@ -367,7 +427,11 @@ ggplot(mko_clean, aes(x = month_name, y = Temp_bot)) +
   coord_flip()
 ```
 
+
+
 ### Alt 1: modify outliers - SKIPPED IN CLASS
+
+
 
 ```{r}
 #| eval: true
@@ -381,7 +445,11 @@ ggplot(mko_clean, aes(x = month_name, y = Temp_bot)) +
   coord_flip()
 ```
 
+
+
 ### Alt 2: hightlight a group
+
+
 
 ```{r}
 #| eval: true
@@ -397,7 +465,11 @@ ggplot(mko_clean, aes(x = month_name, y = Temp_bot)) +
   coord_flip()
 ```
 
+
+
 ### Alt 3: jitter raw data (using `{palmerpenguins}` data) - TRY DOING FOR VAMSI
+
+
 
 ```{r}
 #| eval: true
@@ -409,7 +481,11 @@ ggplot(palmerpenguins::penguins, aes(x = species, y = body_mass_g)) +
   geom_boxplot()
 ```
 
+
+
 ### Alt 4: dodged groups
+
+
 
 ```{r}
 #| eval: true
@@ -422,7 +498,11 @@ ggplot(palmerpenguins::penguins, aes(x = species, y = body_mass_g)) +
   
 ```
 
+
+
 ### Alt 5: overlay beeswarm
+
+
 
 ```{r}
 #| eval: true
@@ -434,9 +514,13 @@ ggplot(palmerpenguins::penguins, aes(x = species, y = body_mass_g)) +
   geom_boxplot(outlier.shape = NA) 
 ```
 
+
+
 ## Violin plots
 
 -   visualize distribution of a numeric variable for one or several groups; great for multiple groups with lots of data
+
+
 
 ```{r}
 #| eval: true
@@ -447,7 +531,11 @@ ggplot(palmerpenguins::penguins, aes(x = species, y = body_mass_g)) +
 ggplot(mko_clean, aes(x = month_name, y = Temp_bot))
 ```
 
+
+
 ### Alt 1: overlay boxplot
+
+
 
 ```{r}
 #| eval: true
@@ -461,7 +549,11 @@ ggplot(mko_clean, aes(x = month_name, y = Temp_bot)) +
   coord_flip()
 ```
 
+
+
 ### Alt 2: half-violin half-dot plot
+
+
 
 ```{r}
 #| eval: true
@@ -470,3 +562,4 @@ ggplot(mko_clean, aes(x = month_name, y = Temp_bot)) +
 
 # half violin + half dot plot ----
 ```
+
