@@ -6,7 +6,7 @@ date: 2025-02-10
 toc: true
 ---
 
-::: {.callout-note}
+::: callout-note
 This template follows [lecture 6.2 slides](https://eds-240-data-viz.github.io/course-materials/lecture-slides/lecture6.2-annotations-slides.html#/title-slide){target="_blank"}. Please be sure to cross-reference the slides, which contain important information and additional context!
 :::
 
@@ -108,7 +108,7 @@ lob_plot
 
 ### Adding annotations using `geom_text()` & `geom_rect()`
 
-- bounding box + text
+-   bounding box + text
 
 ```{r}
 #| eval: true
@@ -119,7 +119,7 @@ lob_plot
 
 ### Adding annotations using `annotate()`
 
-- bounding box + text + arrow
+-   bounding box + text + arrow
 
 ```{r}
 #| eval: true
@@ -154,7 +154,7 @@ lob_plot +
 
 ### Use `annotate()` to label a few points
 
-- ID + arrow
+-   ID + arrow
 
 ```{r}
 #| eval: true
@@ -164,13 +164,34 @@ lob_plot +
 
 ## Mono Lake plot
 
-### Create base plot 
+### Create base plot
 
 ```{r}
 #| eval: true
 #| echo: true
+
+#put annotate above geom_line so box is behind 
 # create base plot ----
 ggplot(data = mono, aes(x = year, y = lake_level)) +
+  annotate(
+    geom = "rect",
+    xmin = 1941, xmax = 1983,
+    ymin = 6350, ymax = 6440,
+    fill = "grey90") +
+  annotate(
+    geom = "text",
+    x = 1962, y = 6425,
+    label = "unrestricted water diversions\n(1941-1983)",
+    color = "grey"
+  ) +
+  geom_hline(yintercept = 6360, 
+             linetype = "dashed") +
+  annotate(
+    geom = "text",
+    x = 1900, y = 6366,
+    label = "Decreased brine shrimp abundance expected\n(6,360 feet above sea level)",
+    size = 3
+    ) +
   geom_line() +
   labs(x = "\nYear",
        y = "Lake surface level\n(feet above sea level)\n",
@@ -190,12 +211,12 @@ ggplot(data = mono, aes(x = year, y = lake_level)) +
     axis.title = element_text(size = 12),
     axis.text = element_text(size = 10),
     plot.caption = element_text(face = "italic")
-    )
+    ) 
 ```
 
 ### Add annotations
 
-- order of annotation layers matters!
+-   order of annotation layers matters!
 
 ```{r}
 #| eval: true
