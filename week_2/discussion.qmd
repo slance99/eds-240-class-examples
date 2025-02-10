@@ -69,16 +69,45 @@ drought_clean |>
   filter(drought_lvl != "None",
          state_abb == "CA") |> 
   ggplot(aes(x= date, y= area_pct, group= drought_lvl_long, fill = drought_lvl_long)) +
-  labs(x = NULL, y = NULL) + #sets the x and y labels 
+  labs(x = NULL, y = NULL, title = "Drought Area in California") + #sets the x and y labels 
   geom_area(position = position_stack(reverse = TRUE)) + #how we order our drought from D1-D4
-  theme_classic() +
-  theme(legend.position = "bottom", 
-        legend.title = element_blank()) + #puts the legend on the bottom
+  theme_minimal() +
   scale_fill_manual(values = c("#853904", "#FF0000", "#FFC100", "#FFD965", "#FFFF00")) +
   scale_x_date(date_labels = "%Y", #label by year
                breaks = scales::breaks_pretty(n=10), #set 10 braks
                expand = c(0, 0)) + #expand across the x axis 
   scale_y_continuous(breaks = seq(0, 100, 10), #breaks by series of 10 1-100
                      labels = scales::label_percent(scale = 1), #set the scale to say it goes up to 100%
-                     expand = c(0,0)) #expand to the y axis 
+                     expand = c(0,0)) + #expand to the y axis
+  theme(
+    #update axis lines + ticks
+    axis.line = element_line(color = "#5A9CD6"),
+    axis.ticks = element_line(color = "#5A9CD6"),
+    
+    #adjust lengths of axis ticks
+    axis.ticks.length = unit(.2, "cm"), #provide length of ticks and the unit we use
+    
+    #axis title
+    axis.title = element_blank(),
+    axis.text = element_text(color = "#686868", size = 12),
+    
+    #legend
+    legend.position = "bottom", 
+    legend.title = element_blank(), #gets rid of legend title
+    legend.key.height = unit(.25, "cm"), #change size of boxes
+    legend.key.width = unit(.4, "cm"),
+    legend.text = element_text(color = "#686868", size = 12),
+    
+    #title
+    plot.title = element_text(hjust = 0.5,
+                              color = "#686868",
+                              size = 20,
+                              margin = margin(t=10, r =0, b=15, l =0 )), #want to center our title text + add color
+    
+    plot.background = element_rect(color = "#686868"),
+    plot.margin = margin(t= 10, r=10, b=10, l=10)
+    
+    
+  
+  )
 ```

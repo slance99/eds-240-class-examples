@@ -47,7 +47,7 @@ ggplot(data = penguins, aes(x = body_mass_g, fill = species)) +
 
 ## Visual 2: Global Temperature
 
-## ![](nyt-monthly-temp.png){fig-alt="Dot plot of montly global temperatures from 1850, the start of the industrial revolution, to 2023. The overall trend shows prior to 1975 the yearly temperature is hotter than average, compared to prior to 1975 when the temperature is colder than average"} 
+## ![](nyt-monthly-temp.png){fig-alt="Dot plot of montly global temperatures from 1850, the start of the industrial revolution, to 2023. The overall trend shows prior to 1975 the yearly temperature is hotter than average, compared to prior to 1975 when the temperature is colder than average"}
 
 ## Visual 3: GBIF Species
 

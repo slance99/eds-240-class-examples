@@ -1,0 +1,17 @@
+---
+title: "Week 4 Discussion"
+author: "Sam Lance"
+date: "January 28, 2025"
+format:
+  html:
+    code-fold: true
+    toc: true
+    number-sections: true
+    embed-resources: true
+    theme: Lux
+editor: visual
+execute:
+  echo: true
+  message: false
+  warning: false
+---
